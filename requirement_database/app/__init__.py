@@ -18,7 +18,7 @@ def create_app(**config_overrides):
     app = Flask(__name__)
     app.config.from_object('app.config')
     app.config['MONGODB_SETTINGS'] = {'db': 'requirements_db'}
-    from teamserver.endpoint import API
+    from app.endpoint import API
     app.register_blueprint(API)
     app.config.update(config_overrides)
     try:
