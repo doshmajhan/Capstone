@@ -1,0 +1,4 @@
+- hosts: docker
+  tasks:
+    - name: ensure apache is installed
+      apt: name=apache2
