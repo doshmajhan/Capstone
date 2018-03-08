@@ -13,7 +13,7 @@ resource "docker_container" "foo" {
   }
 
   provisioner "local-exec" {
-      command = "sleep 10; ansible-playbook config.yml -i inventory.ini"
+      command = "sleep 10; cd ansible; ansible-playbook playbook.yml -i hosts"
   }
 }
 
