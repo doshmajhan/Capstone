@@ -1,4 +1,5 @@
 ---
 - hosts: docker
   roles:
-    - vuln-ssh
+    - { role: vuln-ssh, tags: ['vuln-ssh'] }
+  

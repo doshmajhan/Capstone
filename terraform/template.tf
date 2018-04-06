@@ -2,6 +2,8 @@
 variable "container_name" {}
 
 variable "image_name" {}
+variable "tags" {}
+variable "ansible_dir" {}
 
 provider "docker" {
   host = "unix:///var/run/docker.sock"
@@ -18,6 +20,6 @@ resource "docker_container" "vulnerable" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 10; cd ansible; ansible-playbook playbook.yml -i hosts"
+    command = "sleep 10; cd ${var.ansible_dir}; ansible-playbook playbook.yml -i hosts --tags ${var.tags}"
   }
 }
