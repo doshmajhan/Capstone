@@ -9,9 +9,13 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
+resource "docker_image" "vuln_image" {
+  name = "${var.image_name}"
+}
+
 # Create a container
 resource "docker_container" "vulnerable" {
-  image = "${var.image_name}"
+  image = "${docker_image.vuln_image.latest}"
   name  = "${var.container_name}"
 
   ports {

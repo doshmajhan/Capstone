@@ -9,6 +9,6 @@ TF = Terraform(working_dir=WORKING_DIR)
 AUTO_APPROVE = {"auto-approve": True}
 EXAMPLE_VARS = {
     "container_name" : "calicam",
-    "image_name": "ubuntu_ssh",
+    "image_name": "thedosh/ubuntu14:latest",
     "tags": "vuln-ssh"
 }
