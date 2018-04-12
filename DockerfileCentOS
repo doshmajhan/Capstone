@@ -1,0 +1,12 @@
+FROM centos:centos6
+
+RUN yum -y update; yum clean all
+RUN yum -y install openssh-server passwd; yum clean all
+RUN mkdir /var/run/sshd
+RUN echo 'root:changeme' | chpasswd
+RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' 
+
+ENTRYPOINT ["/usr/sbin/sshd", "-D"]
