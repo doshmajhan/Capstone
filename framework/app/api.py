@@ -75,13 +75,13 @@ def os_list():
         }
     )
 
-@API.route('/api/get_role/<role_name>', methods=['GET', 'POST'])
+@API.route('/api/get_role/<role_title>', methods=['GET', 'POST'])
 @handle_exceptions
-def get_role(role_name):
+def get_role(role_title):
     """
     Fetch role information from the database based on the given role name.
     """
-    role = VulnerableRole.objects.get(name=role_name) # pylint: disable=no-member
+    role = VulnerableRole.objects.get(title=role_title) # pylint: disable=no-member
     return jsonify({
         'error': False,
         'role': role.document
@@ -95,7 +95,9 @@ def add_role():
 
     Example Request Data:
     {
+        'title': 'SSH Vuln CVE-2123123213',
         'name': 'vuln-ssh',
+        'description': 'A vulnerable ssh configuration.',
         'operating_systems': ['Ubuntu 16.04'],
         'protected_ports': [22],
         'protected_files': ['/etc/ssh'],
@@ -104,7 +106,9 @@ def add_role():
     data = get_data(request)
 
     role = VulnerableRole(
+        title=data['title'],
         name=data['name'],
+        description=data['description'],
         operating_systems=data['operating_systems'],
         protected_ports=data['protected_ports'],
         protected_files=data['protected_files']

@@ -26,8 +26,8 @@ def validate_config(data):
         'additional_roles': [],
     }
 
-    for role_name in data['selected_roles']:
-        role = VulnerableRole.objects.get(name=role_name) # pylint: disable=no-member
+    for role_title in data['selected_roles']:
+        role = VulnerableRole.objects.get(title=role_title) # pylint: disable=no-member
 
         # Verify OS, File, and Port compatibility
         VulnerableRole.compatible(role, config)
@@ -36,7 +36,7 @@ def validate_config(data):
         config['protected_ports'] += role.protected_ports
         config['protected_files'] += role.protected_files
 
-    for role in VulnerableRole.objects(name__nin=data['selected_roles']): # pylint: disable=no-member
+    for role in VulnerableRole.objects(title__nin=data['selected_roles']): # pylint: disable=no-member
         try:
             VulnerableRole.compatible(role, config)
             config['additional_roles'].append(role.name)

@@ -18,8 +18,13 @@ def create_app(**config_overrides):
     app = Flask(__name__)
     app.config.from_object('app.config')
     app.config['MONGODB_SETTINGS'] = {'db': 'requirements_db'}
+
     from app.api import API
     app.register_blueprint(API)
+
+    from app.ui import UI
+    app.register_blueprint(UI)
+
     app.config.update(config_overrides)
     try:
         DB.init_app(app)
