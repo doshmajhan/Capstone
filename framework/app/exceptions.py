@@ -3,6 +3,7 @@ This module handles exceptions encountered by the application.
 """
 from functools import wraps
 from mongoengine.errors import DoesNotExist, NotUniqueError, ValidationError
+from terraform import TerraformError
 
 class InvalidConfiguration(Exception):
     """
@@ -36,6 +37,13 @@ def handle_exceptions(func):
             return {
                 'error': True,
                 'error_type': 'invalid-configuration',
+                'description': str(exception),
+            }
+
+        except TerraformError as exception:
+            return {
+                'error': True,
+                'error_type': 'build-error',
                 'description': str(exception),
             }
 

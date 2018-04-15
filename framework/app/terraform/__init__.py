@@ -14,3 +14,6 @@ EXAMPLE_VARS = {
     "tags": "vuln-ssh", # these tags are for what vuln to install, see ansible/playbook.yml for more tags
     "ansible_dir": ANSIBLE_DIR
 }
+
+from .api import create, destroy
+from .errors import TerraformError

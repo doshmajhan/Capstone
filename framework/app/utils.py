@@ -23,21 +23,24 @@ def validate_config(data):
         'selected_os': data['selected_os'],
         'protected_ports': [],
         'protected_files': [],
+        'additional_roles': [],
     }
+
     for role_name in data['selected_roles']:
         role = VulnerableRole.objects.get(name=role_name) # pylint: disable=no-member
+
+        # Verify OS, File, and Port compatibility
         VulnerableRole.compatible(role, config)
 
+        # Update the ports and files in use
         config['protected_ports'] += role.protected_ports
         config['protected_files'] += role.protected_files
-
-    additional_roles = []
 
     for role in VulnerableRole.objects(name__nin=data['selected_roles']): # pylint: disable=no-member
         try:
             VulnerableRole.compatible(role, config)
-            additional_roles.append(role.name)
+            config['additional_roles'].append(role.name)
         except InvalidConfiguration:
             pass
 
-    return additional_roles
+    return config
