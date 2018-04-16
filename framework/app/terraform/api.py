@@ -8,7 +8,7 @@ def create(vars):
 
     :params vars: dictionary of variable values for the terraform template. See __init__.py for example
 
-    :returns: 
+    :returns:
     """
     return_code, stdout, stderr = TF.apply(refresh=False, var=vars, **AUTO_APPROVE)
     if return_code != 0:
@@ -21,7 +21,7 @@ def destroy(vars):
 
     :params vars: dictionary of variable values for the terraform template. See __init__.py for example
 
-    :returns: 
+    :returns:
     """
     return_code, stdout, stderr = TF.destroy(refresh=False, var=vars, force=True)
     if return_code != 0:

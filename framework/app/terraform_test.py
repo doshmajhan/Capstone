@@ -6,9 +6,9 @@ import os
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Test out terraform api")
     parser.add_argument('-c', action='store_true')
-    parser.add_argument('-d', action='store_true')    
+    parser.add_argument('-d', action='store_true')
     args = parser.parse_args()
-    
+
     if args.c:
         print("Creating...")
         api.create(EXAMPLE_VARS)

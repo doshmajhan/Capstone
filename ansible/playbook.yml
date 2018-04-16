@@ -1,6 +1,0 @@
----
-- hosts: docker
-  # tag each role so we can run them individually and our program can find them. 
-  roles:
-    - { role: vuln-ssh, tags: ['vuln-ssh'] }
-  
