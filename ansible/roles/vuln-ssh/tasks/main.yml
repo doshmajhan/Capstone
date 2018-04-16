@@ -1,2 +1,5 @@
 ---
 # tasks file for vuln-ssh
+- name: install vulnerable version of ssh
+  apt:
+    name: openssh-server=1:6.6p1-2ubuntu2.10
