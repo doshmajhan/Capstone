@@ -53,16 +53,33 @@
         <div class="row h-100">
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Operating System
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </div>
+
+                <form>
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1">Select Operating System</label>
+                      <select class="form-control" id="exampleFormControlSelect1">
+                        <option>Windows Operating System</option>
+                        <option>Linux Operating System</option>
+                        <option>BSD Operating System</option>
+                        <option>MacOS Operating System</option>
+                      </select>
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit Operating System</button>
+                </form>
+
+                <form>
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1">Select Vulnerable Components</label>
+                      <select class="form-control" id="exampleFormControlSelect1">
+                        <option>Jenkins: A devops tool that will run code and is vulnerable by design</option>
+                        <option>DVWA: A vulnerable web application</option>
+                        <option>HeartBleed: A server that is vulnerable to ssl.</option>
+                      </select>
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit Configuration</button>
+                </form>
+
+
           </div>
         </div>
       </div>
