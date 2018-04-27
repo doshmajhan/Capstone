@@ -14,3 +14,9 @@
   make:
     chdir: /opt/vsftpd
     target: install
+
+- name: Start vsftpd-2.3.4 (Backdoored Version)
+  service:
+    name: vsftpd
+    enable: yes
+    state: started
