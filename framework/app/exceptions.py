@@ -83,6 +83,16 @@ def handle_exceptions(func):
             })
             resp.status_code = 400
             return resp
+        except OSError as e:
+            resp = jsonify({
+                'error': True,
+                'status': 400,
+                'error_type': 'invalid-role',
+                'description': 'One or more specified roles were not found.'
+            })
+            print(e.strerror)
+            resp.status_code = 400
+            return resp
         except KeyError:
             resp = jsonify({
                 'error': True,

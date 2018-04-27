@@ -47,6 +47,8 @@ function build() {
     var vuln_values = $('#exampleFormControlSelect2').val();
     var data = {'selected_os': os_values, 'selected_roles': vuln_values}
     
+    console.log(data);
+
     var response;
     $.ajax({
         type: "POST",
@@ -55,12 +57,11 @@ function build() {
         contentType: 'application/json',
         success: function(data) {
             response = data;
-            console.log(data);
+            console.log(data.responseJSON.description);
             alert("Succesfully built!");
         },
         error: function(data) {
-            console.log(data);
-            alert("Build did not complete: "+data.description);
+            alert("Build did not complete: "+data.responseJSON.description);
         }
     });
 

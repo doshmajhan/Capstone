@@ -2,10 +2,11 @@
 This module contains API functionality.
 """
 
+from uuid import uuid4
 from flask import Blueprint, request, jsonify
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
-from .terraform import create
+from .terraform import create, ANSIBLE_DIR
 from .config import SUPPORTED_OPERATING_SYSTEMS
 from .model import VulnerableRole
 from .utils import get_data, validate_config
@@ -30,11 +31,13 @@ def build():
 
     config = validate_config(data)
 
+    print('Building system:\nOS:{}\nRoles:{}'.format(config['selected_os'], config['selected_roles']))
     create(
         {
-            'container_name': data['name'],
+            'container_name': data.get('name', str(uuid4())),
             'image_name': SUPPORTED_OPERATING_SYSTEMS[config['selected_os']],
             'tags': config['selected_roles'],
+            'ansible_dir': ANSIBLE_DIR,
         }
     )
 

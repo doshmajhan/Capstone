@@ -1,11 +1,15 @@
 """
 Configure terraform script to run desired build
 """
-import os
+from os.path import dirname, join, abspath
+
 from python_terraform import Terraform
 
-WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
-ANSIBLE_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../ansible')
+WORKING_DIR = dirname(abspath(__file__))
+ANSIBLE_DIR = join(dirname(abspath(dirname(abspath(__file__)))), 'ansible')
+print("BUILD DEBUG: Working in: {}".format(WORKING_DIR))
+print("BUILD DEBUG: Ansible in: {}".format(ANSIBLE_DIR))
+
 TF = Terraform(working_dir=WORKING_DIR)
 AUTO_APPROVE = {"auto-approve": True}
 EXAMPLE_VARS = {
