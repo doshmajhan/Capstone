@@ -36,10 +36,10 @@ def validate_config(data):
         config['protected_ports'] += role.protected_ports
         config['protected_files'] += role.protected_files
 
-    for role in VulnerableRole.objects(title__nin=data['selected_roles']): # pylint: disable=no-member
+    for role in VulnerableRole.objects(title__nin=data.get('selected_roles', [])): # pylint: disable=no-member
         try:
             VulnerableRole.compatible(role, config)
-            config['additional_roles'].append(role.name)
+            config['additional_roles'].append(role.title)
         except InvalidConfiguration:
             pass
 
