@@ -90,7 +90,7 @@ def handle_exceptions(func):
                 'error_type': 'invalid-role',
                 'description': 'One or more specified roles were not found.'
             })
-            print(e.strerror)
+            print(e.filename)
             resp.status_code = 400
             return resp
         except KeyError:

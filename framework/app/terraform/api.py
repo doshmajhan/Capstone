@@ -10,6 +10,8 @@ def create(vars):
 
     :returns:
     """
+    print("Create")
+    print(vars)
     return_code, stdout, stderr = TF.apply(refresh=False, var=vars, **AUTO_APPROVE)
     if return_code != 0:
         raise TerraformError("Code: {} Stderr: {}".format(return_code, stderr))
