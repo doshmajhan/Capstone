@@ -11,9 +11,8 @@ print("BUILD DEBUG: Working in: {}".format(WORKING_DIR))
 print("BUILD DEBUG: Ansible in: {}".format(ANSIBLE_DIR))
 
 TF = Terraform(working_dir=WORKING_DIR)
-AUTO_APPROVE = {"auto-approve": True}
 EXAMPLE_VARS = {
-    "container_name" : "calicam",
+    "container_name" : "bodaddy",
     "image_name": "thedosh/ubuntu14",
     "tags": "vuln-ssh", # these tags are for what vuln to install, see ansible/playbook.yml for more tags
     "ansible_dir": ANSIBLE_DIR

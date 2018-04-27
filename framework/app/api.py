@@ -31,7 +31,7 @@ def build():
 
     config = validate_config(data)
     # tags need to be passed like "tag1,tag2" to ansible as a string not list
-    config['selected_roles'] = ','.join(role for role in config['selected_roles'])
+    config['selected_roles'] = str(','.join(role for role in config['selected_roles']))
     print('Building system:\nOS:{}\nRoles:{}'.format(config['selected_os'], config['selected_roles']))
     create(
         {

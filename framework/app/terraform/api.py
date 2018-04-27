@@ -1,4 +1,4 @@
-from . import TF, WORKING_DIR, AUTO_APPROVE
+from . import TF, WORKING_DIR
 from errors import TerraformError
 
 def create(vars):
@@ -12,9 +12,12 @@ def create(vars):
     """
     print("Create")
     print(vars)
-    return_code, stdout, stderr = TF.apply(refresh=False, var=vars, **AUTO_APPROVE)
+    return_code, stdout, stderr = TF.apply(refresh=False, var=vars, capture_output=False, skip_plan=True)
     if return_code != 0:
         raise TerraformError("Code: {} Stderr: {}".format(return_code, stderr))
+
+    print("Done")
+    return return_code
 
 def destroy(vars):
     """
@@ -25,6 +28,8 @@ def destroy(vars):
 
     :returns:
     """
-    return_code, stdout, stderr = TF.destroy(refresh=False, var=vars, force=True)
+    return_code, stdout, stderr = TF.destroy(refresh=False, var=vars, force=True, capture_output=False)
     if return_code != 0:
         raise TerraformError("Code: {} Stderr: {}".format(return_code, stderr))
+
+    return return_code
