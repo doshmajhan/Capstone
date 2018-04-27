@@ -28,8 +28,8 @@ class VulnerableRole(Document):
     name = StringField(required=True, unique=True, null=False)
     description = StringField()
     operating_systems = ListField(StringField(required=True, null=False), required=True, null=False)
-    protected_ports = ListField(IntField(required=True, null=False), required=True, null=False)
-    protected_files = ListField(StringField(required=True, null=False), required=True, null=False)
+    protected_ports = ListField(IntField(required=True, null=False), required=False, null=False)
+    protected_files = ListField(StringField(required=True, null=False), required=False, null=False)
 
     @property
     def document(self):
