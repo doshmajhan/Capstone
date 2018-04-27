@@ -1,4 +1,4 @@
-import requests
+from mongoengine import connect
 
 try:
     from app.model import VulnerableRole
@@ -67,6 +67,11 @@ def add_role(role):
     return role
 
 def main():
+    connect('evf_db', host='localhost', port=27017)
+
     VulnerableRole.drop_collection()
     for role in SAMPLE_ROLES:
         add_role(role)
+
+if __name__ == '__main__':
+    main()
