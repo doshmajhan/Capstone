@@ -39,7 +39,7 @@ def validate_config(data):
     for role in VulnerableRole.objects(title__nin=data.get('selected_roles', [])): # pylint: disable=no-member
         try:
             VulnerableRole.compatible(role, config)
-            config['additional_roles'].append(role.title)
+            config['additional_roles'].append('{}: {}'.format(role.title, role.description if role.description else 'No description.'))
         except InvalidConfiguration:
             pass
 

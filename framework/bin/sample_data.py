@@ -21,8 +21,7 @@ SAMPLE_ROLES = [
     {
         'title': 'VSFTPD 2.3.4 (Backdoor)',
         'name': 'vuln-ftp',
-        'description': 'Backdoored version of vsftpd 2.3.4 that spawned a reverse shell when\
-        ":)" was included in the username.',
+        'description': 'Backdoored version of vsftpd 2.3.4 that spawned a reverse shell when ":)" was included in the username.',
         'operating_systems': ['Ubuntu 16.04'],
         'protected_ports': [20, 21],
         'protected_files': ['/etc/ssh'],

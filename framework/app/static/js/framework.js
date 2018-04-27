@@ -13,19 +13,19 @@ function get_role(role_title) {
     return response;
 }
 
-function verify() {
+function verify(option_data) {
     var response;
-    config = [].forEach.call(  document.querySelectorAll('#os :checked')  , function(elm){
-        console.log(elm.value);
-    });
 
     $.ajax({
         type: "POST",
         url: "/api/verify",
-        data: JSON.stringify(config),
+        data: JSON.stringify(option_data),
         contentType: 'application/json',
-        function(data) {
-            response = jQuery.parseJSON(data);
+        success: function(data) {
+            response = data;
+            $.each(data.additional_roles, function(i, option) {
+                $('#exampleFormControlSelect2').append($('<option/>').attr("value", option).text(option));
+             });
         }
     });
 
@@ -42,15 +42,25 @@ function os_list() {
      return;
 }
 
-function build(config) {
+function build() {
+    var os_values = $('#exampleFormControlSelect1').val();
+    var vuln_values = $('#exampleFormControlSelect2').val();
+    var data = {'selected_os': os_values, 'selected_roles': vuln_values}
+    
     var response;
     $.ajax({
         type: "POST",
         url: "/api/build",
-        data: JSON.stringify(config),
+        data:  JSON.stringify(data),
         contentType: 'application/json',
-        function(data) {
-            response = jQuery.parseJSON(data);
+        success: function(data) {
+            response = data;
+            console.log(data);
+            alert("Succesfully built!");
+        },
+        error: function(data) {
+            console.log(data);
+            alert("Build did not complete: "+data.description);
         }
     });
 
@@ -58,8 +68,11 @@ function build(config) {
     return response;
 }
 
-function picked_os(){
-    console.log("HI");
-    return;
+function picked_os(option){
+    var data = {'selected_os': option};
+    console.log(data)
+    verify(data); 
 }
+
+
 os_list();

@@ -54,25 +54,25 @@
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
 
-                <form class="#os">
+                <form id="#os">
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">Select Operating System</label>
-                      <select class="form-control" id="exampleFormControlSelect1">
+                      <select class="form-control" id="exampleFormControlSelect1" onchange="if (this.selectedIndex) picked_os(this.value)">
+                        <option>Select and Operating System</option>
                       </select>
                     </div>
-                    <button onclick="verify()" type="button" class="btn btn-primary">Submit Operating System</button>
                 </form>
 
                 &nbsp;
 
-                <form>
+                <form id="#vuln">
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">Select Vulnerable Components</label>
-                      <select class="form-control" id="exampleFormControlSelect1">
+                      <select class="form-control" multiple="multiple" id="exampleFormControlSelect2">
                         <option>Select an Operating System First</option>
                       </select>
                     </div>
-                    <button type="button" class="btn btn-primary">Submit Configuration</button>
+                    <button type="button" class="btn btn-primary" onclick="build()">Submit Configuration</button>
                 </form>
 
 

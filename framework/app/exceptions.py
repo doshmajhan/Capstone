@@ -2,6 +2,7 @@
 This module handles exceptions encountered by the application.
 """
 from functools import wraps
+from flask import jsonify, Response
 from mongoengine.errors import DoesNotExist, NotUniqueError, ValidationError
 from terraform import TerraformError
 
@@ -34,44 +35,53 @@ def handle_exceptions(func):
             return retval
 
         except InvalidConfiguration as exception:
-            return {
+            return jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'invalid-configuration',
                 'description': str(exception),
-            }
+            })
 
         except TerraformError as exception:
-            return {
+            return jsonify({
                 'error': True,
+                'status': 500,
                 'error_type': 'build-error',
                 'description': str(exception),
-            }
+            })
 
         except ValidationError:
-            return {
+            return jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'validation-error',
                 'description': 'Invalid parameter type.',
-            }
+            })
 
         except DoesNotExist:
-            return {
+            return jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'does-not-exist',
                 'description': 'Role does not exist',
-            }
+            })
 
         except NotUniqueError:
-            return {
+            return jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'not-unique',
                 'description': 'Role already exists in the database',
-            }
+            })
         except KeyError:
-            return {
+            return jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'missing-parameter',
                 'description': 'Missing required parameter',
-            }
+            })
+
+    if isinstance(wrapper, Response):
+        wrapper.status_code = wrapper.json.get('status', 500)
 
     return wrapper
