@@ -1,18 +1,24 @@
 ---
 # tasks file for vuln-ftp
-
+# need to install more dependencies, make is still failing
+- name: Install dependencies
+  apt:
+    name: build-essential
+    update_cache: yes
+  
 - name: Upload vsftpd-2.3.4 (Backdoored Version)
   unarchive:
     src: ../files/vsftpd-2.3.4.tar.gz
-    dest: /opt/vsftpd
+    dest: /opt
+    creates: /opt/vsftpd-2.3.4
 
 - name: Compile vsftpd-2.3.4 (Backdoored Version)
   make:
-    chdir: /opt/vsftpd
+    chdir: /opt/vsftpd-2.3.4
 
 - name: Install vsftpd-2.3.4 (Backdoored Version)
   make:
-    chdir: /opt/vsftpd
+    chdir: /opt/vsftpd-2.3.4
     target: install
 
 - name: Start vsftpd-2.3.4 (Backdoored Version)
