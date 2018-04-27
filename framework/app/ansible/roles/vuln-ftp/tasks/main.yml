@@ -1,2 +1,16 @@
 ---
 # tasks file for vuln-ftp
+
+- name: Upload vsftpd-2.3.4 (Backdoored Version)
+  unarchive:
+    src: ../files/vsftpd-2.3.4.tar.gz
+    dest: /opt/vsftpd
+
+- name: Compile vsftpd-2.3.4 (Backdoored Version)
+  make:
+    chdir: /opt/vsftpd
+
+- name: Install vsftpd-2.3.4 (Backdoored Version)
+  make:
+    chdir: /opt/vsftpd
+    target: install
