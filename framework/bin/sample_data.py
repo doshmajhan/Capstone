@@ -72,6 +72,7 @@ def main():
     VulnerableRole.drop_collection()
     for role in SAMPLE_ROLES:
         add_role(role)
+        print("Added role {}".format(role['title']))
 
 if __name__ == '__main__':
     main()
