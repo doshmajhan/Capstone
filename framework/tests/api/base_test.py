@@ -17,7 +17,7 @@ class BasicFunctionalityTest(BaseTest):
         self.assertEqual(data['error'], False)
 
     def test_verify_roles(self):
-        role = create_test_role(
+        create_test_role(
             'VSFTPD 2.3.4',
             'vuln-ftp',
             description="Backdoored version of vsftpd 2.3.4 that spawned a reverse shell when\
