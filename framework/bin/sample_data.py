@@ -6,7 +6,7 @@ except Exception:
     # Configure path to start at app module
     import sys
     from os.path import abspath, dirname
-    sys.path.append(abspath(dirname(dirname(dirname(abspath(__file__))))))
+    sys.path.append(abspath(dirname(dirname(abspath(__file__)))))
     from app.model import VulnerableRole
 
 SAMPLE_ROLES = [
