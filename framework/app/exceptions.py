@@ -35,53 +35,62 @@ def handle_exceptions(func):
             return retval
 
         except InvalidConfiguration as exception:
-            return jsonify({
+            resp = jsonify({
                 'error': True,
                 'status': 400,
                 'error_type': 'invalid-configuration',
                 'description': str(exception),
             })
+            resp.status_code = 400
+            return resp
 
         except TerraformError as exception:
-            return jsonify({
+            resp = jsonify({
                 'error': True,
                 'status': 500,
                 'error_type': 'build-error',
                 'description': str(exception),
             })
+            resp.status_code = 500
+            return resp
 
         except ValidationError:
-            return jsonify({
+            resp = jsonify({
                 'error': True,
                 'status': 400,
                 'error_type': 'validation-error',
                 'description': 'Invalid parameter type.',
             })
+            resp.status_code = 400
+            return resp
 
         except DoesNotExist:
-            return jsonify({
+            resp = jsonify({
                 'error': True,
                 'status': 400,
                 'error_type': 'does-not-exist',
                 'description': 'Role does not exist',
             })
+            resp.status_code = 400
+            return resp
 
         except NotUniqueError:
-            return jsonify({
+            resp = jsonify({
                 'error': True,
                 'status': 400,
                 'error_type': 'not-unique',
                 'description': 'Role already exists in the database',
             })
+            resp.status_code = 400
+            return resp
         except KeyError:
-            return jsonify({
+            resp = jsonify({
                 'error': True,
                 'status': 400,
                 'error_type': 'missing-parameter',
                 'description': 'Missing required parameter',
             })
-
-    if isinstance(wrapper, Response):
-        wrapper.status_code = wrapper.json.get('status', 500)
+            resp.status_code = 400
+            return resp
 
     return wrapper
