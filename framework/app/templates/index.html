@@ -54,17 +54,13 @@
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
 
-                <form>
+                <form class="#os">
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">Select Operating System</label>
                       <select class="form-control" id="exampleFormControlSelect1">
-                        <option>Windows Operating System</option>
-                        <option>Linux Operating System</option>
-                        <option>BSD Operating System</option>
-                        <option>MacOS Operating System</option>
                       </select>
                     </div>
-                    <button type="button" class="btn btn-primary">Submit Operating System</button>
+                    <button onclick="verify()" type="button" class="btn btn-primary">Submit Operating System</button>
                 </form>
 
                 &nbsp;
@@ -73,9 +69,7 @@
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">Select Vulnerable Components</label>
                       <select class="form-control" id="exampleFormControlSelect1">
-                        <option>Jenkins: A devops tool that will run code and is vulnerable by design</option>
-                        <option>DVWA: A vulnerable web application</option>
-                        <option>HeartBleed: A server that is vulnerable to ssl.</option>
+                        <option>Select an Operating System First</option>
                       </select>
                     </div>
                     <button type="button" class="btn btn-primary">Submit Configuration</button>
@@ -113,6 +107,8 @@
 
     <!-- Custom scripts for this template -->
     <script src="{{ url_for('static', filename='js/new-age.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/framework.js') }}"></script>
+
 
   </body>
 

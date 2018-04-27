@@ -26,7 +26,7 @@ def validate_config(data):
         'additional_roles': [],
     }
 
-    for role_title in data['selected_roles']:
+    for role_title in data.get('selected_roles', []):
         role = VulnerableRole.objects.get(title=role_title) # pylint: disable=no-member
 
         # Verify OS, File, and Port compatibility

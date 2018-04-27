@@ -41,7 +41,7 @@ def build():
     return jsonify({'error': False})
 
 @API.route('/api/verify', methods=['POST'])
-@handle_exceptions
+# @handle_exceptions
 def verify():
     """
     This method will take a given configuration, and assess it's validity.
