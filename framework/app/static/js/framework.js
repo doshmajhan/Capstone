@@ -23,9 +23,7 @@ function verify(option_data) {
         contentType: 'application/json',
         success: function(data) {
             response = data;
-            // Clear the menu
             $("#exampleFormControlSelect2").empty();
-            //$("#vuln").reset();
             $.each(data.additional_roles, function(i, option) {
                 $('#exampleFormControlSelect2').append($('<option/>').attr("value", option).text(option));
              });
@@ -60,7 +58,6 @@ function build() {
         contentType: 'application/json',
         success: function(data) {
             response = data;
-            console.log(data.responseJSON.description);
             alert("Succesfully built!");
         },
         error: function(data) {
