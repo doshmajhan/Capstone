@@ -6,7 +6,7 @@ from uuid import uuid4
 from flask import Blueprint, request, jsonify
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
-from .terraform import create, ANSIBLE_DIR
+from .terraform import create, get_running_machines, ANSIBLE_DIR
 from .config import SUPPORTED_OPERATING_SYSTEMS
 from .model import VulnerableRole
 from .utils import get_data, validate_config
@@ -120,3 +120,17 @@ def add_role():
     role.save(force_insert=True)
 
     return jsonify({'error': False})
+
+
+@API.route('/api/running_machines', methods=['GET', 'POST'])
+@handle_exceptions
+def running_machines():
+    """
+    Return a dictionary of information for the current running machine
+    """
+    return jsonify(
+        {
+            'error': False,
+            'machine_info': get_running_machines()
+        }
+    )

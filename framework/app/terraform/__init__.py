@@ -18,5 +18,5 @@ EXAMPLE_VARS = {
     "ansible_dir": ANSIBLE_DIR
 }
 
-from .api import create, destroy
+from .api import create, destroy, get_running_machines
 from .errors import TerraformError
