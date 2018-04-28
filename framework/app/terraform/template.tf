@@ -25,7 +25,7 @@ resource "docker_container" "vulnerable" {
 
   ports {
     internal = 21
-    external = 2121
+    external = 21
   }
 
   ports {
