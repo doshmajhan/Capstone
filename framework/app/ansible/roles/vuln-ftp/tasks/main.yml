@@ -33,8 +33,5 @@
     src: /opt/vsftpd-2.3.4/vsftpd.conf
     dest: /etc/vsftpd.conf
 
-#- name: Start vsftpd-2.3.4 (Backdoored Version)
-#  service:
-#    name: vsftpd
-#    enable: yes
-#    state: started
+- name: Start vsftpd-2.3.4 (Backdoored Version)
+  shell: nohup /usr/local/sbin/vsftpd 2>&1 &

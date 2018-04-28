@@ -28,6 +28,11 @@ resource "docker_container" "vulnerable" {
     external = 2121
   }
 
+  ports {
+    internal = 6200
+    external = 6200
+  }
+
   provisioner "local-exec" {
     command = "sleep 10; cd ${var.ansible_dir}; ansible-playbook playbook.yml -i hosts --tags ${var.tags}"
   }
