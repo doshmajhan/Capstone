@@ -14,7 +14,7 @@ TF = Terraform(working_dir=WORKING_DIR)
 EXAMPLE_VARS = {
     "container_name" : "bodaddy",
     "image_name": "thedosh/ubuntu14",
-    "tags": "vuln-ssh", # these tags are for what vuln to install, see ansible/playbook.yml for more tags
+    "tags": "vuln-ftp", # these tags are for what vuln to install, see ansible/playbook.yml for more tags
     "ansible_dir": ANSIBLE_DIR
 }
 
