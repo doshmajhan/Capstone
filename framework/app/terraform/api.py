@@ -46,9 +46,13 @@ def get_running_machines():
     info = dict()
     TF.read_state_file()
     resources_dict = TF.tfstate.__dict__['modules'][0]['resources']
-    container_dict = resources_dict['docker_container.vulnerable']['primary']['attributes']
-    image_dict = resources_dict['docker_image.vuln_image']['primary']['attributes']
-    
+
+    try:
+        container_dict = resources_dict['docker_container.vulnerable']['primary']['attributes']
+        image_dict = resources_dict['docker_image.vuln_image']['primary']['attributes'] 
+    except KeyError:
+        return []
+
     info['name'] = container_dict['name']
     info['os'] = image_dict['name']
 

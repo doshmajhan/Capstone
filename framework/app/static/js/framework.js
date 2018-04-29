@@ -69,6 +69,34 @@ function build() {
     return response;
 }
 
+function destroy(machine) {
+    var data = {}
+    var tr = machine.closest('tr');
+    var tds = tr.getElementsByTagName('td');
+    for(i = 0; i < tds.length; i++){
+        data[tds[i].className] = tds[i].innerHTML;
+    }
+
+    console.log(data)
+    var response;
+    $.ajax({
+        type: "POST",
+        url: "/api/destroy",
+        data:  JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(data) {
+            response = data;
+            alert("Succesfully destroyed!");
+        },
+        error: function(data) {
+            alert("Destroy did not complete: "+data.responseJSON.description);
+        }
+    });
+
+    // TODO: Do something with response
+    return response;
+}
+
 function picked_os(option){
     var data = {'selected_os': option};
     console.log(data)
@@ -78,19 +106,28 @@ function picked_os(option){
 function running_machines() {
     $.getJSON("/api/running_machines", function(data){
         console.log(data.machines)
+        $('#vm-table tbody').empty();
         $.each(data.machines, function(i, machine) {
             console.log(machine.name)
-        
-            var tr = ($('<tr>').append($('<td>').append(machine.name))
-                .append($('<td>').append(machine.os))
+            
+            var tr = ($('<tr>')
+                .append($('<td>').addClass("name").append(machine.name))
+                .append($('<td>').addClass("os").append(machine.os))
                 .append($('<td>').append(machine.ip))
                 .append($('<td>').append(machine.ports))
                 .append($('<td>').append("UP"))
             );
+
+            var button = $('<button type="button" class="btn btn-primary" onclick="destroy(this)">Destroy</button>')
+            tr.append(button);
             $('#vm-table tbody').append(tr);
         });
     })
     return;
 }
 
+
+var poll = setInterval(running_machines, 15000);
+
 os_list();
+running_machines();

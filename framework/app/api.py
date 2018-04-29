@@ -6,7 +6,7 @@ from uuid import uuid4
 from flask import Blueprint, request, jsonify
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
-from .terraform import create, get_running_machines, ANSIBLE_DIR
+from .terraform import create, destroy, get_running_machines, ANSIBLE_DIR
 from .config import SUPPORTED_OPERATING_SYSTEMS
 from .model import VulnerableRole
 from .utils import get_data, validate_config
@@ -38,6 +38,30 @@ def build():
             'container_name': data.get('name', str(uuid4())),
             'image_name': SUPPORTED_OPERATING_SYSTEMS[config['selected_os']],
             'tags': config['selected_roles'],
+            'ansible_dir': ANSIBLE_DIR,
+        }
+    )
+
+    return jsonify({'error': False})
+
+@API.route('/api/destroy', methods=['POST'])
+@handle_exceptions
+def tear_down():
+    """
+    Attempt to destroy the specified machine.
+
+    Example Request Data:
+    {
+        'name': 'machine-name',
+        'selected_os': 'Ubuntu 16.04',
+    }
+    """
+    data = get_data(request)
+    destroy(
+        {
+            'container_name': data.get('name', None),
+            'image_name': data.get('os', None),
+            'tags': "",
             'ansible_dir': ANSIBLE_DIR,
         }
     )
