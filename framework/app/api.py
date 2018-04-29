@@ -131,6 +131,6 @@ def running_machines():
     return jsonify(
         {
             'error': False,
-            'machine_info': get_running_machines()
+            'machines': get_running_machines()
         }
     )

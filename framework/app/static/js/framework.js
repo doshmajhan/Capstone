@@ -75,5 +75,22 @@ function picked_os(option){
     verify(data); 
 }
 
+function running_machines() {
+    $.getJSON("/api/running_machines", function(data){
+        console.log(data.machines)
+        $.each(data.machines, function(i, machine) {
+            console.log(machine.name)
+        
+            var tr = ($('<tr>').append($('<td>').append(machine.name))
+                .append($('<td>').append(machine.os))
+                .append($('<td>').append(machine.ip))
+                .append($('<td>').append(machine.ports))
+                .append($('<td>').append("UP"))
+            );
+            $('#vm-table tbody').append(tr);
+        });
+    })
+    return;
+}
 
 os_list();

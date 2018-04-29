@@ -1,4 +1,3 @@
-# Enterprise
 # Capstone
 Lets graduate
 

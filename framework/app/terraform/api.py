@@ -49,7 +49,7 @@ def get_running_machines():
     container_dict = resources_dict['docker_container.vulnerable']['primary']['attributes']
     image_dict = resources_dict['docker_image.vuln_image']['primary']['attributes']
     
-    info['container_name'] = container_dict['name']
+    info['name'] = container_dict['name']
     info['os'] = image_dict['name']
 
     # get list of external ports
@@ -58,6 +58,7 @@ def get_running_machines():
         if "ports" in key and "external" in key:
             info['ports'].append(container_dict[key])
 
-    info['ip_address'] = get_ip()
+    info['ports'] = ','.join(port for port in info['ports'])
+    info['ip'] = get_ip()
 
-    return info
+    return [info]
