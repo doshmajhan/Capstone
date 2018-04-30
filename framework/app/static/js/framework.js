@@ -107,19 +107,16 @@ function running_machines() {
     $.getJSON("/api/running_machines", function(data){
         console.log(data.machines)
         $('#vm-table tbody').empty();
-        $.each(data.machines, function(i, machine) {
-            console.log(machine.name)
-            
-            var tr = ($('<tr>')
-                .append($('<td>').addClass("name").append(machine.name))
-                .append($('<td>').addClass("os").append(machine.os))
+        $.each(data.machines, function(i, machine) {            
+            var tr = (
+                $('<tr>')
+                .append($('<td>').addClass("name").append(machine.container_name))
+                .append($('<td>').addClass("os").append(machine.image_name))
                 .append($('<td>').append(machine.ip))
                 .append($('<td>').append(machine.ports))
-                .append($('<td>').append("UP"))
+                .append($('<td>').append(machine.status))
+                .append($('<button type="button" class="btn btn-primary" onclick="destroy(this)">Destroy</button>'))
             );
-
-            var button = $('<button type="button" class="btn btn-primary" onclick="destroy(this)">Destroy</button>')
-            tr.append(button);
             $('#vm-table tbody').append(tr);
         });
     })
