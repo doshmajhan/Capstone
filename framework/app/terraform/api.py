@@ -1,8 +1,8 @@
 from . import TF, WORKING_DIR
 from .util import get_ip
-from errors import TerraformError
+from ..exceptions import TerraformError
+from ..model import RunningMachines
 
-RUNNING_MACHINES = list() 
 
 def create(vars):
     """
@@ -13,17 +13,22 @@ def create(vars):
 
     :returns: return code of terraform command
     """
-    print("Create")
     print(vars)
-    vars['status'] = "Creating"
-    RUNNING_MACHINES.append(vars)
+    machine = RunningMachines(
+        name=vars['container_name'],
+        tags=vars['tags'],
+        operating_system=vars['image_name'],
+        status="Creating"
+    )
+    machine.save(force_insert=True)
+
     return_code, stdout, stderr = TF.apply(refresh=False, var=vars, capture_output=False, skip_plan=True)
     if return_code != 0:
         raise TerraformError("Code: {} Stderr: {}".format(return_code, stderr))
 
-    for machine in RUNNING_MACHINES:
-        if vars['container_name'] == machine['container_name']:
-            machine['status'] = "UP"
+    machine = RunningMachines.objects.get(name=vars['container_name'])
+    machine.status = "UP"
+    machine.save()
 
     print("Done")
     return return_code
@@ -38,16 +43,11 @@ def destroy(vars):
 
     :returns: return code of terraform command
     """
-    for machine in RUNNING_MACHINES:
-        if vars['container_name'] == machine['container_name']:
-            machine['status'] = "Destroyed"
-    
+    machine = RunningMachines.objects.get(name=vars['container_name'])
+    machine.delete()
     return_code, stdout, stderr = TF.destroy(refresh=False, var=vars, force=True, capture_output=False)
     if return_code != 0:
         raise TerraformError("Code: {} Stderr: {}".format(return_code, stderr))
-
-    index = next((index for (index, d) in enumerate(RUNNING_MACHINES) if d["status"] == "Destroyed"), None)
-    del RUNNING_MACHINES[index]
 
     return return_code
 
@@ -65,20 +65,17 @@ def get_running_machines():
         container_dict = resources_dict['docker_container.vulnerable']['primary']['attributes']
         image_dict = resources_dict['docker_image.vuln_image']['primary']['attributes'] 
     except KeyError:
-        return RUNNING_MACHINES
+        return [machine.document for machine in RunningMachines.objects]
 
-    print(container_dict)
-    print(RUNNING_MACHINES)
-    index = next((index for (index, d) in enumerate(RUNNING_MACHINES) if d["container_name"] == container_dict['name']), None)
-    print(index)
-    if index is not None:
-        # get list of external ports
-        ports = []
-        for key in container_dict:
-            if "ports" in key and "external" in key:
-                ports.append(container_dict[key])
+    machine = RunningMachines.objects.get(name=container_dict['name'])
+    # get list of external ports
+    ports = []
+    for key in container_dict:
+        if "ports" in key and "external" in key:
+            ports.append(container_dict[key])
 
-        RUNNING_MACHINES[index]['ports'] = ','.join(port for port in ports)
-        RUNNING_MACHINES[index]['ip'] = get_ip()
+    machine.ports = ports
+    machine.ip_address = get_ip()
+    machine.save()
 
-    return RUNNING_MACHINES
+    return [machine.document for machine in RunningMachines.objects]

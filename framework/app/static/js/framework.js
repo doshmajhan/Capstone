@@ -110,9 +110,9 @@ function running_machines() {
         $.each(data.machines, function(i, machine) {            
             var tr = (
                 $('<tr>')
-                .append($('<td>').addClass("name").append(machine.container_name))
-                .append($('<td>').addClass("os").append(machine.image_name))
-                .append($('<td>').append(machine.ip))
+                .append($('<td>').addClass("name").append(machine.name))
+                .append($('<td>').addClass("os").append(machine.operating_system))
+                .append($('<td>').append(machine.ip_address))
                 .append($('<td>').append(machine.ports))
                 .append($('<td>').append(machine.status))
                 .append($('<button type="button" class="btn btn-primary" onclick="destroy(this)">Destroy</button>'))

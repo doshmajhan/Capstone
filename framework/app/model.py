@@ -55,3 +55,43 @@ class VulnerableRole(Document):
         if config['selected_os'] not in role.operating_systems:
             raise InvalidConfiguration(
                 'Role ({}) is not compatible with the selected os.'.format(role.name))
+
+
+class RunningMachines(Document):
+    """
+    Describes a current running vulnerable machine.
+
+    name: The name of the machine
+    tags: the tags sent to ansible, aka the roles selected
+    operating_systems: Running OS on the machine.
+    ip_address: IP of machine
+    ports: Listening ports on the machine
+    status: the current status of machine (Creating/UP)
+    """
+    meta = {
+        'collection': 'running_machines',
+        'indexes': [
+            {
+                'fields': ['name'],
+                'unique': True
+            }
+        ]
+    }
+
+    name = StringField(required=True, unique=True, null=False)
+    tags = StringField(required=True, null=False)
+    operating_system = StringField(required=True, null=False)
+    ip_address = StringField(required=False, null=False)
+    ports = ListField(IntField(required=True, null=False), required=False, null=False)
+    status = StringField(required=True, null=False)
+
+    @property
+    def document(self):
+        return {
+            'name': self.name,
+            'tags': self.tags,
+            'operating_system': self.operating_system,
+            'ip_address': self.ip_address,
+            'ports': self.ports,
+            'status': self.status
+        }

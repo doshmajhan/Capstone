@@ -4,7 +4,6 @@ This module handles exceptions encountered by the application.
 from functools import wraps
 from flask import jsonify, Response
 from mongoengine.errors import DoesNotExist, NotUniqueError, ValidationError
-from terraform import TerraformError
 
 class InvalidConfiguration(Exception):
     """
@@ -15,6 +14,12 @@ class InvalidConfiguration(Exception):
 class BadRequest(Exception):
     """
     Raised when the data inside of a request was not readable.
+    """
+    pass
+
+class TerraformError(Exception):
+    """
+    Raised when terraform cli wrapper throws an exception
     """
     pass
 

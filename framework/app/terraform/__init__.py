@@ -19,4 +19,3 @@ EXAMPLE_VARS = {
 }
 
 from .api import create, destroy, get_running_machines
-from .errors import TerraformError
