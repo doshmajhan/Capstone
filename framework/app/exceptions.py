@@ -2,8 +2,8 @@
 This module handles exceptions encountered by the application.
 """
 from functools import wraps
+from flask import jsonify, Response
 from mongoengine.errors import DoesNotExist, NotUniqueError, ValidationError
-from terraform import TerraformError
 
 class InvalidConfiguration(Exception):
     """
@@ -14,6 +14,12 @@ class InvalidConfiguration(Exception):
 class BadRequest(Exception):
     """
     Raised when the data inside of a request was not readable.
+    """
+    pass
+
+class TerraformError(Exception):
+    """
+    Raised when terraform cli wrapper throws an exception
     """
     pass
 
@@ -34,44 +40,72 @@ def handle_exceptions(func):
             return retval
 
         except InvalidConfiguration as exception:
-            return {
+            resp = jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'invalid-configuration',
                 'description': str(exception),
-            }
+            })
+            resp.status_code = 400
+            return resp
 
         except TerraformError as exception:
-            return {
+            resp = jsonify({
                 'error': True,
+                'status': 500,
                 'error_type': 'build-error',
                 'description': str(exception),
-            }
+            })
+            resp.status_code = 500
+            return resp
 
         except ValidationError:
-            return {
+            resp = jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'validation-error',
                 'description': 'Invalid parameter type.',
-            }
+            })
+            resp.status_code = 400
+            return resp
 
         except DoesNotExist:
-            return {
+            resp = jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'does-not-exist',
                 'description': 'Role does not exist',
-            }
+            })
+            resp.status_code = 400
+            return resp
 
         except NotUniqueError:
-            return {
+            resp = jsonify({
                 'error': True,
+                'status': 400,
                 'error_type': 'not-unique',
                 'description': 'Role already exists in the database',
-            }
-        except KeyError:
-            return {
+            })
+            resp.status_code = 400
+            return resp
+        except OSError as e:
+            resp = jsonify({
                 'error': True,
+                'status': 400,
+                'error_type': 'invalid-role',
+                'description': 'One or more specified roles were not found.'
+            })
+            print(e.filename)
+            resp.status_code = 400
+            return resp
+        except KeyError:
+            resp = jsonify({
+                'error': True,
+                'status': 400,
                 'error_type': 'missing-parameter',
                 'description': 'Missing required parameter',
-            }
+            })
+            resp.status_code = 400
+            return resp
 
     return wrapper
