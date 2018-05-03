@@ -107,13 +107,14 @@ function running_machines() {
     $.getJSON("/api/running_machines", function(data){
         console.log(data.machines)
         $('#vm-table tbody').empty();
-        $.each(data.machines, function(i, machine) {            
+        $.each(data.machines, function(i, machine) {
+            var strports = machine.ports.join(",");
             var tr = (
                 $('<tr>')
                 .append($('<td>').addClass("name").append(machine.name))
                 .append($('<td>').addClass("os").append(machine.operating_system))
                 .append($('<td>').append(machine.ip_address))
-                .append($('<td>').append(machine.ports))
+                .append($('<td>').append(machine.ports.join(",")))
                 .append($('<td>').append(machine.status))
                 .append($('<button type="button" class="btn btn-primary" onclick="destroy(this)">Destroy</button>'))
             );
