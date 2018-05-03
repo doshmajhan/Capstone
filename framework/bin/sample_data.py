@@ -27,6 +27,14 @@ SAMPLE_ROLES = [
         'protected_files': ['/etc/ssh'],
     },
     {
+        'title': 'Unreal IRCd 3.2.8.1 (Backdoor)',
+        'name': 'none; exit 0',
+        'description': 'Back doored version of Unreal IRCd client that was present on their archive in November 2009',
+        'operating_systems': ['Ubuntu 16.04'],
+        'protected_ports': [6697],
+        'protected_files': [],
+    },
+    {
         'title': 'MS08-067 (Net API)',
         'name': 'vuln-ms08-067',
         'operating_systems': ['Windows XP'],

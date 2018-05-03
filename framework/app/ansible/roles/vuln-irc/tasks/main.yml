@@ -1,0 +1,5 @@
+---
+# tasks file for vuln-ftp
+
+- name: Start UnrealIRCd 
+  shell: /etc/unreal/unreal start 2>&1
