@@ -26,7 +26,7 @@
 Front end has our user interface, they select a OS first, we then return a list of valid vulnerabilities we have stored in MongoDB for that OS. After they choose a vulnerability, they submit the configuration. The selected options get sent to our API which will call terraform to create the machine. 
 
 ### Front End
-write stuff here
+Our frontend is served by the API itself however it would be quite simple to decouple it from the api as all data is collected using AJAX requests (Asyncronous Javascript and XML).  The HTML files are found in the framework/app/templates/ directory while all the static content is found in the framework/app/static directory.  We are serving the html as a jinja template which can be explored in the framework/app/ui.py file.  Flask automatically searches for the templates and static folders so there is no need to change this structure or explicitly tell the render_template function where the files live.  All of the AJAX requests are found in the static/js/framework.js file.  The other two files in this directory are for the html/css and do not need to be changed unless you want to tinker with the views that they create.  Going forward we would recommend using a more robust frontend framework such as Vuejs, React, or Angular however this is not the most pressing issue to resolve.  
 
 
 ### API
